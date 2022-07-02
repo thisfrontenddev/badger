@@ -2,17 +2,20 @@ env:
   browser: true
   es6: true
   node: true
-extends: [
-  "eslint:recommended",
-  "plugin:@typescript-eslint/eslint-recommended",
-  "plugin:@typescript-eslint/recommended",
-  "plugin:import/recommended",
-  "plugin:import/electron",
-  "plugin:import/typescript"
-]
+extends:
+  [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/electron",
+    "plugin:import/typescript",
+  ]
 settings:
   import/parsers:
     "@typescript-eslint/parser": [".ts", ".tsx"]
   import/resolver:
     typescript:
       alwaysTryTypes: true
+rules:
+  sort-imports: error
