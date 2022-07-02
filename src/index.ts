@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu, Tray, Notification } from "electron";
 import MainWindow from "./windows/main";
 import { getContextMenu } from "./tray";
-import { initTimers, TimerType } from "./utils/timers";
+import { createTimer, TimerList, TimerType } from "./utils/timers";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -10,7 +10,7 @@ if (require("electron-squirrel-startup")) {
 }
 
 let tray: Tray;
-let timers: NodeJS.Timer[];
+let timers: TimerList;
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -21,15 +21,9 @@ app.whenReady().then(async () => {
   tray.setToolTip("Badger");
   tray.setContextMenu(contextMenu);
 
-  /**
-   * TODO: Change the parameter here as a Map, we don't want
-   * multiple timers for the same timer type, having the nodejs
-   * timers always in the same order will be useful for debugging
-   * and tracing.
-   */
-  timers = initTimers([
-    { name: TimerType.EYES, duration: 10000 },
-    { name: TimerType.LEGS, duration: 5000 },
+  timers = new Map([
+    createTimer({ name: TimerType.EYES, duration: 10000 }),
+    createTimer({ name: TimerType.LEGS, duration: 5000 }),
   ]);
 });
 
@@ -51,8 +45,8 @@ app.on("activate", () => {
 });
 
 app.on("quit", () => {
-  for (const timer of timers) {
-    clearInterval(timer);
+  for (const key of timers.keys()) {
+    clearInterval(timers.get(key));
   }
 });
 
