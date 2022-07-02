@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, Tray } from "electron";
+import { app, BrowserWindow, Menu, Tray, Notification } from "electron";
 import MainWindow from "./windows/main";
 import { getContextMenu } from "./tray";
 import { initTimers, TimerType } from "./utils/timers";
