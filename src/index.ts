@@ -1,7 +1,6 @@
-import { app, BrowserWindow, Menu, Tray, Notification } from "electron";
-import MainWindow from "./windows/main";
+import { BrowserWindow, Tray, app } from "electron";
+import { TimerList, TimerType, createTimer } from "./utils/timers";
 import { getContextMenu } from "./tray";
-import { createTimer, TimerList, TimerType } from "./utils/timers";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {

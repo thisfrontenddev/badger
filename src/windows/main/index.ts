@@ -2,7 +2,7 @@ import {
   BrowserWindow,
   Menu,
   MenuItemConstructorOptions,
-  Tray
+  Tray,
 } from "electron";
 import PreferencesStore from "@utils/preferencesStore";
 

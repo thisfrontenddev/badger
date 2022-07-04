@@ -1,4 +1,4 @@
-import { createTimer, TimerType } from "./timers";
+import { TimerType, createTimer } from "./timers";
 
 jest.useFakeTimers();
 jest.spyOn(global, "setInterval");

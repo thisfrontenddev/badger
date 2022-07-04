@@ -4,6 +4,6 @@ export type Preferences = {
   TIMER_INTERVAL: number;
 };
 
-export const PreferencesStore = new Store<Preferences>();
+const PreferencesStore = new Store<Preferences>();
 
 export default PreferencesStore;
