@@ -1,5 +1,5 @@
 import { BrowserWindow, Tray, app } from "electron";
-import { TimerList, TimerType, createTimer } from "./utils/timers";
+import { createIntervals, setup } from "./utils/reminders";
 import { getContextMenu } from "./tray";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -9,7 +9,7 @@ if (require("electron-squirrel-startup")) {
 }
 
 let tray: Tray;
-let timers: TimerList;
+let intervals: ReturnType<typeof createIntervals>;
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -20,10 +20,8 @@ app.whenReady().then(async () => {
   tray.setToolTip("Badger");
   tray.setContextMenu(contextMenu);
 
-  timers = new Map([
-    createTimer({ name: TimerType.EYES, duration: 10000 }),
-    createTimer({ name: TimerType.LEGS, duration: 5000 }),
-  ]);
+  const reminders = setup();
+  intervals = createIntervals(reminders);
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -44,8 +42,8 @@ app.on("activate", () => {
 });
 
 app.on("quit", () => {
-  for (const key of timers.keys()) {
-    clearInterval(timers.get(key));
+  for (const [, interval] of intervals) {
+    clearInterval(interval);
   }
 });
 
