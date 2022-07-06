@@ -1,5 +1,6 @@
 import { BrowserWindow, Tray, app } from "electron";
-import { createIntervals, setup } from "./utils/reminders";
+import { Reminder, createIntervals, setup } from "./utils/reminders";
+import Preferences from "./preferences/preferences";
 import { getContextMenu } from "./tray";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -20,7 +21,14 @@ app.whenReady().then(async () => {
   tray.setToolTip("Badger");
   tray.setContextMenu(contextMenu);
 
-  const reminders = setup();
+  const reminderPreferences = Object.entries(Preferences.get("reminders"));
+
+  const reminders = setup(
+    reminderPreferences.map(([name, value]) => ({
+      name,
+      ...value,
+    })) as Partial<Reminder[]>
+  );
   intervals = createIntervals(reminders);
 });
 
