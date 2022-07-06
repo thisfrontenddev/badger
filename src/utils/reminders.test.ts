@@ -20,6 +20,18 @@ describe("setup", () => {
       defaultRemindersNames.includes(reminder.name)
     );
   });
+
+  test("should load the right data when loading parameters", () => {
+    const reminders = setup([
+      { name: "arms", frequency: 9001 },
+      { name: "posture", frequency: 1234 },
+    ]);
+    const armsReminder = reminders.find((r) => r.name === "arms");
+    const postureReminder = reminders.find((r) => r.name === "posture");
+
+    expect(armsReminder.frequency).toEqual(9001);
+    expect(postureReminder.frequency).toEqual(1234);
+  });
 });
 
 describe("createIntervals", () => {
@@ -29,7 +41,7 @@ describe("createIntervals", () => {
         name: "arms",
         title: "Title mock",
         message: "Message mock",
-        duration: 2000,
+        frequency: 2000,
       },
     ];
     const intervals = createIntervals(reminders);

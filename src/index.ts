@@ -42,8 +42,10 @@ app.on("activate", () => {
 });
 
 app.on("quit", () => {
-  for (const [, interval] of intervals) {
-    clearInterval(interval);
+  if (intervals) {
+    for (const [, interval] of intervals) {
+      clearInterval(interval);
+    }
   }
 });
 
